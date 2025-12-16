@@ -167,14 +167,110 @@ CDS.
 
 ```
 
-## Genes in SQL ##
+## Genes in SQL - Denormalized ##
 
-Planned content here
+The simplest way to store hierarchical gene data in a relational database is to
+store it in a single table, with no relationships. Historically, relational
+database management systems (RDBMS) required one to specify the type of data
+for each column. My favorite RDBMS is SQLite, and it doesn't require specifying
+the columns. So I won't bother. This is a valid SQLite table schema.
 
-- Denormalized
-- 1NF
-- 2NF
-- 3NF
-- 4NF
-- 5NF
-- 6NF
+```sql
+CREATE TABLE feature(
+	seqid,   -- chromosome name
+	source,  -- free text
+	type,    -- should match Sequence Ontology vocabulary
+	beg,     -- int >= 1, I like to use "beg" rather than "start"
+	end,     -- int >= beg
+	score,   -- float or "."
+	strand,  -- "+", "-", or "."
+	phase,   -- 0, 1, 2, or "."
+	fid,     -- feature id maps to ID=
+	pid      -- parent id maps to Parent=
+);
+```
+
+One can insert GFF3 line-by-line into this schema like this:
+
+```sql
+insert into feature values("chr1", "korf", "gene", 10, 600, ".", "+", ".", "gene-x", NULL);
+insert into feature values("chr1", "korf", "mRNA", 10, 600, ".", "+", ".", "tx-1", "gene-X');
+/* etc */
+```
+
+The problem is that getting genes out of the database requires some knowledge
+of how everything is connected. For example, if you wanted to get the protein
+sequences encoded by the transcripts for gene-X, you would have to do the
+following:
+
+- Get all of the transcripts that match the gene's id
+- For each transcript id
+	- Get all the cds that match the transcript's id
+	- Put all of the cds in correct order
+	- Retrieve the sequence for each cds
+	- Stitch together the sequence corresponding to each cds
+	- Translate the cds into protein
+
+This task requires multiple queries to the database and some work outside SQL
+to assemble the cds.
+
+## Genes in SQL - Normalized ##
+
+Seqid Table
+
+| UID | Name |
+|:---:|:-----|
+|  1  | chr1 |
+
+Type Table
+
+| UID | Name |
+|:---:|:-----|
+|  1  | gene |
+|  1  | mRNA |
+|  1  | exon |
+|  1  | cds  |
+
+Source Table
+
+| UID | Name |
+|:---:|:-----|
+|  1  | korf |
+
+Gene Table
+
+| UID | Name   | Beg | End |
+|:---:|:-------|----:|----:|
+|  1  | gene-x |  20 | 600 | should these values be computed?
+
+Transcript Table
+
+| UID | Name   | Beg | End |
+|:---:|:-------|----:|----:|
+|  1  | tx-1   |  20 | 600 | should these values be computed?
+|  2  | tx-2   | 130 | 400 | should these values be computed?
+
+Exon Table
+
+| UID | Beg | End | S | E | P |
+|:---:|----:|----:|:-:|:-:|:-:|
+|  1  |  10 |  50 | + | . | . |
+|  2  | 100 | 200 | + | . | . |
+|  3  | 300 | 400 | + | . | . |
+|  4  | 500 | 600 | + | . | . |
+|  5  | 130 | 200 | + | . | . |
+|  6  | 300 | 400 | + | 1 | . | this is not the same as the 300 400 above
+
+CDS Table
+
+| UID | Beg | End | S | E | P |
+|:---:|----:|----:|:-:|:-:|:-:|
+|  1  | 150 | 200 | + | . | . |
+|  2  | 300 | 400 | + | . | . |
+|  3  | 500 | 550 | + | . | . |
+|  4  | 180 | 200 | + | . | . |
+|  5  | 300 | 370 | + | . | . |
+
+mRNA Table
+
+aggregates...
