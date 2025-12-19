@@ -220,57 +220,79 @@ Seqid Table
 
 | UID | Name |
 |:---:|:-----|
-|  1  | chr1 |
+| Ch1 | chr1 |
 
 Type Table
 
 | UID | Name |
 |:---:|:-----|
-|  1  | gene |
-|  1  | mRNA |
-|  1  | exon |
-|  1  | cds  |
+| Ty1 | gene |
+| Ty2 | mRNA |
+| Ty3 | exon |
+| Ty4 | cds  |
 
 Source Table
 
 | UID | Name |
 |:---:|:-----|
-|  1  | korf |
+| So1 | korf |
 
 Gene Table
 
 | UID | Name   | Beg | End |
 |:---:|:-------|----:|----:|
-|  1  | gene-x |  20 | 600 | should these values be computed?
+| Ge1 | gene-x |  20 | 600 | should these values be computed?
 
 Transcript Table
 
 | UID | Name   | Beg | End |
 |:---:|:-------|----:|----:|
-|  1  | tx-1   |  20 | 600 | should these values be computed?
-|  2  | tx-2   | 130 | 400 | should these values be computed?
+| Tx1 | tx-1   |  20 | 600 | should these values be computed?
+| Tx2 | tx-2   | 130 | 400 | should these values be computed?
 
 Exon Table
 
 | UID | Beg | End | S | E | P |
 |:---:|----:|----:|:-:|:-:|:-:|
-|  1  |  10 |  50 | + | . | . |
-|  2  | 100 | 200 | + | . | . |
-|  3  | 300 | 400 | + | . | . |
-|  4  | 500 | 600 | + | . | . |
-|  5  | 130 | 200 | + | . | . |
-|  6  | 300 | 400 | + | 1 | . | this is not the same as the 300 400 above
+| Ex1 |  10 |  50 | + | . | . |
+| Ex2 | 100 | 200 | + | . | . |
+| Ex3 | 300 | 400 | + | . | . |
+| Ex4 | 500 | 600 | + | . | . |
+| Ex5 | 130 | 200 | + | . | . |
 
 CDS Table
 
 | UID | Beg | End | S | E | P |
 |:---:|----:|----:|:-:|:-:|:-:|
-|  1  | 150 | 200 | + | . | . |
-|  2  | 300 | 400 | + | . | . |
-|  3  | 500 | 550 | + | . | . |
-|  4  | 180 | 200 | + | . | . |
-|  5  | 300 | 370 | + | . | . |
+| Cd1 | 150 | 200 | + | . | . |
+| Cd2 | 300 | 400 | + | . | . |
+| Cd3 | 500 | 550 | + | . | . |
+| Cd4 | 180 | 200 | + | . | . |
+| Cd5 | 300 | 370 | + | . | . |
+
+Exon Aggregate Table
+
+| EID | Exons |
+|:---:|:-----:|
+| EA1 |  Ex1  |
+| EA1 |  Ex2  |
+| EA1 |  EX3  |
+| EA2 |  Ex5  |
+| EA2 |  EX3  |
+
+CDS Aggregate Table
+
+| CID | CDSs |
+|:---:|:----:|
+| CA1 | Cd1  |
+| CA1 | Cd2  |
+| CA1 | Cd3  |
+| CA2 | Cd4  |
+| CA2 | Cd5  |
 
 mRNA Table
 
-aggregates...
+| UID | Exons | CDSs |
+|:---:|:-----:|:----:|
+|  1  |  EA1  |  CA1 |
+|  2  |  EA2  |  CA2 |
