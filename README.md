@@ -131,10 +131,14 @@ CDS.
 			"gene-x": {
 				"start": 10,
 				"end": 600,
+				"strand": "+",
+				"score": ".",
 				"mRNAs": {
 					"tx-1": {
 						"start": 10,
 						"end": 600,
+						"strand": "+",
+						"score": ".",
 						"exons": [
 							{"start": 10, "end": 50},
 							{"start": 100, "end": 200},
@@ -150,6 +154,8 @@ CDS.
 					"tx-2": {
 						"start": 130,
 						"end": 400,
+						"strand": "+",
+						"score": ".",
 						"exons": [
 							{"start": 130, "end": 200},
 							{"start": 300, "end": 400}
@@ -173,7 +179,7 @@ The simplest way to store hierarchical gene data in a relational database is to
 store it in a single table, with no relationships. Historically, relational
 database management systems (RDBMS) required one to specify the type of data
 for each column. My favorite RDBMS is SQLite, and it doesn't require specifying
-the columns. So I won't bother. This is a valid SQLite table schema.
+the columns, so I won't bother. This is a valid SQLite table schema.
 
 ```sql
 CREATE TABLE feature(
@@ -237,18 +243,18 @@ Source Table
 |:---:|:-----|
 | So1 | korf |
 
-Gene Table
+GeneID Table
 
-| UID | Name   | Beg | End |
-|:---:|:-------|----:|----:|
-| Ge1 | gene-x |  20 | 600 | should these values be computed?
+| UID | Name   | Beg | End | S | E |
+|:---:|:-------|----:|----:|:-:|:-:|
+| Ge1 | gene-x |  10 | 600 | + | . |
 
-Transcript Table
+TranscriptID Table
 
-| UID | Name   | Beg | End |
-|:---:|:-------|----:|----:|
-| Tx1 | tx-1   |  20 | 600 | should these values be computed?
-| Tx2 | tx-2   | 130 | 400 | should these values be computed?
+| UID | Name   | Beg | End | S | E |
+|:---:|:-------|----:|----:|:-:|:-:|
+| Tx1 | tx-1   |  10 | 600 | + | . |
+| Tx2 | tx-2   | 130 | 400 | + | . |
 
 Exon Table
 
@@ -272,27 +278,34 @@ CDS Table
 
 Exon Aggregate Table
 
-| EID | Exons |
-|:---:|:-----:|
-| EA1 |  Ex1  |
-| EA1 |  Ex2  |
-| EA1 |  EX3  |
-| EA2 |  Ex5  |
-| EA2 |  EX3  |
+| EID | Exons | Order |
+|:---:|:-----:|:-----:|
+| EA1 |  Ex1  |   1   |
+| EA1 |  Ex2  |   2   |
+| EA1 |  EX3  |   3   |
+| EA2 |  Ex5  |   1   |
+| EA2 |  EX3  |   2   |
 
 CDS Aggregate Table
 
-| CID | CDSs |
-|:---:|:----:|
-| CA1 | Cd1  |
-| CA1 | Cd2  |
-| CA1 | Cd3  |
-| CA2 | Cd4  |
-| CA2 | Cd5  |
+| CID | CDSs | Order |
+|:---:|:----:|:-----:|
+| CA1 | Cd1  |   1   |
+| CA1 | Cd2  |   2   |
+| CA1 | Cd3  |   3   |
+| CA2 | Cd4  |   1   |
+| CA2 | Cd5  |   2   |
 
 mRNA Table
 
 | UID | Exons | CDSs |
 |:---:|:-----:|:----:|
-|  1  |  EA1  |  CA1 |
-|  2  |  EA2  |  CA2 |
+|  M1 |  EA1  |  CA1 |
+|  M2 |  EA2  |  CA2 |
+
+Gene Table
+
+| UID | mRNA  |
+|:---:|:-----:|
+|  G1 |   M1  |
+|  G1 |   M2  |
