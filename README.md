@@ -69,11 +69,11 @@ utr5-1-2            <---->
 utr3-1-1                                                          <--->
 exon-2-1               [      ]
 exon-2-2                                [         ]
-intron-1-1                     <------->
-cds-1-1                     [ ]
-cds-1-2                                 [     ]
-utr5-1-1                <-->
-utr3-1-1                                       <-->
+intron-2-1                     <------->
+cds-2-1                     [ ]
+cds-2-2                                 [     ]
+utr5-2-1                <-->
+utr3-2-1                                       <-->
 ```
 
 A GFF3 representation of this genomic region would look similar to this:
@@ -164,7 +164,7 @@ CDS.
 							{"start": 180, "end": 200},
 							{"start": 300, "end": 370}
 						]
-					}
+					]
 				}
 			}
 		}
@@ -228,7 +228,7 @@ Seqid Table
 |:---:|:-----|
 | Ch1 | chr1 |
 
-Type Table
+Type Table - is this even needed?
 
 | UID | Name |
 |:---:|:-----|
@@ -237,44 +237,45 @@ Type Table
 | Ty3 | exon |
 | Ty4 | cds  |
 
-Source Table
+Source Table - needs to be added to exon and CDS
 
-| UID | Name |
-|:---:|:-----|
-| So1 | korf |
+| UID | Name     |
+|:---:|:---------|
+| So1 | korf     |
+| So2 | inferred |
 
 GeneID Table
 
-| UID | Name   | Beg | End | S | E |
-|:---:|:-------|----:|----:|:-:|:-:|
-| Ge1 | gene-x |  10 | 600 | + | . |
+| UID | Name   |
+|:---:|:-------|
+| Ge1 | gene-x |
 
 TranscriptID Table
 
-| UID | Name   | Beg | End | S | E |
-|:---:|:-------|----:|----:|:-:|:-:|
-| Tx1 | tx-1   |  10 | 600 | + | . |
-| Tx2 | tx-2   | 130 | 400 | + | . |
+| UID | Name   |
+|:---:|:-------|
+| Tx1 | tx-1   |
+| Tx2 | tx-2   |
 
 Exon Table
 
-| UID | Beg | End | S | E | P |
-|:---:|----:|----:|:-:|:-:|:-:|
-| Ex1 |  10 |  50 | + | . | . |
-| Ex2 | 100 | 200 | + | . | . |
-| Ex3 | 300 | 400 | + | . | . |
-| Ex4 | 500 | 600 | + | . | . |
-| Ex5 | 130 | 200 | + | . | . |
+| UID | Beg | End | S | E | P | Src |
+|:---:|----:|----:|:-:|:-:|:-:|:---:|
+| Ex1 |  10 |  50 | + | . | . | korf|
+| Ex2 | 100 | 200 | + | . | . | korf|
+| Ex3 | 300 | 400 | + | . | . | korf|
+| Ex4 | 500 | 600 | + | . | . | korf|
+| Ex5 | 130 | 200 | + | . | . | korf|
 
 CDS Table
 
-| UID | Beg | End | S | E | P |
-|:---:|----:|----:|:-:|:-:|:-:|
-| Cd1 | 150 | 200 | + | . | . |
-| Cd2 | 300 | 400 | + | . | . |
-| Cd3 | 500 | 550 | + | . | . |
-| Cd4 | 180 | 200 | + | . | . |
-| Cd5 | 300 | 370 | + | . | . |
+| UID | Beg | End | S | E | P | Src |
+|:---:|----:|----:|:-:|:-:|:-:|:---:|
+| Cd1 | 150 | 200 | + | . | . | korf|
+| Cd2 | 300 | 400 | + | . | . | korf|
+| Cd3 | 500 | 550 | + | . | . | korf|
+| Cd4 | 180 | 200 | + | . | . | korf|
+| Cd5 | 300 | 370 | + | . | . | korf|
 
 Exon Aggregate Table
 
