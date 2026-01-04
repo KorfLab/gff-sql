@@ -266,9 +266,6 @@ def normal_forms(db, k, main_tbl=0):
 									break
 
 					# print(' ' * (len(tbl + ': ') - len('key: ')) + 'key: ', key)
-
-				# get column name list from most to least unique values
-				# sqlite3 db.db "select count(distinct seqid), count(distinct source), count(distinct type), count(distinct start), count(distinct end), count(distinct score), count(distinct strand), count(distinct phase) from tbl"
 				"""
 				Possibly NF2 schema
 
